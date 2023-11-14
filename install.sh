@@ -3,7 +3,6 @@
 HOST=${1:-'dominio'}
 #parametros opcionales
 PROYECT=${2:-'https://github.com/davem1012/softdent.git'}
-#REMOTE='git@gitlab.com:'$(echo $PROYECT | sed -e s#^https://gitlab.com/##)
 SERVICE_NUMBER=${3:-'1'}
 PATH_INSTALL=$(echo $HOME)
 DIR=$(echo $PROYECT | rev | cut -d'/' -f1 | rev | cut -d '.' -f1)$SERVICE_NUMBER
@@ -196,8 +195,6 @@ docker-compose exec -T fpm$SERVICE_NUMBER php artisan migrate:refresh --seed
 docker-compose exec -T fpm$SERVICE_NUMBER php artisan key:generate
 docker-compose exec -T fpm$SERVICE_NUMBER php artisan storage:link
 
-rm $PATH_INSTALL/$DIR/database/seeds/DatabaseSeeder.php
-mv $PATH_INSTALL/$DIR/database/seeds/DatabaseSeeder.php.bk $PATH_INSTALL/$DIR/database/seeds/DatabaseSeeder.php
 
 echo "configurando permisos"
 chmod -R 777 "$PATH_INSTALL/$DIR/storage/" "$PATH_INSTALL/$DIR/bootstrap/" "$PATH_INSTALL/$DIR/vendor/"
@@ -213,3 +210,4 @@ echo "URL: $HOST"
 else
 echo "La carpeta $HOME/proxy/fpms/$DIR ya existe"
 fi
+
